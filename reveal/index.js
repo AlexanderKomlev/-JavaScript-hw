@@ -1,11 +1,13 @@
-const reveal = document.querySelector(".reveal");
+const reveal = document.querySelectorAll(".reveal");
 
 document.addEventListener("scroll", () => {
-    const {top, bottom} = reveal.getBoundingClientRect();
+    for (const object of reveal) {
+        const { top, bottom } = object.getBoundingClientRect();
 
-    if (top < window.innerHeight && bottom > 0) {
-        reveal.classList.add("reveal_active");
-    } else {
-        reveal.classList.remove("reveal_active");
+        if (top < window.innerHeight && bottom > 0) {
+            object.classList.add("reveal_active");
+        } else {
+            object.classList.remove("reveal_active");
+        }
     }
 });
