@@ -16,7 +16,6 @@ async function rotatorAds(rotatorCase) {
     }
 }
 
-
 // for (let rotator of rotatorList) {
 //     const rotatorCase = rotator.querySelectorAll('.rotator__case');
 //     let index = 0;
