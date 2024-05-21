@@ -23,68 +23,62 @@ bookControls.addEventListener('click', (event) => {
 function changeFontSize(event, bookControl) {
     const buttons = bookControl.querySelectorAll('.font-size');
     for (let button of buttons) {
-        button.classList.remove('font-size_active');
+        if (event.target === button) {
+            button.classList.add('font-size_active');
+        } else {
+            button.classList.remove('font-size_active');
+        }
     }
-    event.target.classList.add('font-size_active');
 
-    if (event.target.getAttribute('data-size') === 'small') {
-        book.classList.remove('font-size_big');
-        book.classList.add('font-size_small');
-    } else if (event.target.getAttribute('data-size') === 'big') {
-        book.classList.remove('font-size_small');
-        book.classList.add('font-size_big');
-    } else {
-        book.classList.remove('font-size_small');
-        book.classList.remove('font-size_big');
+    book.classList.remove('font-size_small', 'font-size_big');
+    const size = event.target.dataset.size;
+
+    if (size) {
+        book.classList.add(`font-size_${size}`);
     }
 }
 
 function changeColor(event, bookControl) {
-    const buttons = bookControl.querySelectorAll('.color');
-    for (let button of buttons) {
-        if (event.target === button) {
-            button.classList.add('color_active');
-        } else {
-            button.classList.remove('color_active');
+    const buttons = Array.from(bookControl.querySelectorAll('.color'));
+    if (buttons.includes(event.target)) {
+        for (let button of buttons) {
+            if (event.target === button) {
+                button.classList.add('color_active');
+            } else {
+                button.classList.remove('color_active');
+            }
         }
-    }
 
-    if (event.target.getAttribute('data-text-color') === 'black') {
-        book.classList.remove('book_color-gray');
-        book.classList.remove('book_color-whitesmoke');
-        book.classList.add('book_color-black');
-    } else if (event.target.getAttribute('data-text-color') === 'whitesmoke') {
-        book.classList.remove('book_color-black');
-        book.classList.remove('book_color-gray');
-        book.classList.add('book_color-whitesmoke');
-    } else if (event.target.getAttribute('data-text-color') === 'gray') {
-        book.classList.remove('book_color-black');
-        book.classList.remove('book_color-whitesmoke');
-        book.classList.add('book_color-gray');
+        book.classList.remove('book_color-black', 'book_color-gray', 'book_color-whitesmoke');
+        const color = event.target.dataset.textColor;
+        console.log(color);
+
+        if (color) {
+            book.classList.add(`book_color-${color}`);
+        } else {
+            book.classList.add('book_color-black');
+        }
     }
 }
 
 function changeBgColor(event, bookControl) {
-    const buttons = bookControl.querySelectorAll('.color');
-    for (let button of buttons) {
-        if (event.target === button) {
-            button.classList.add('color_active');
-        } else {
-            button.classList.remove('color_active');
+    const buttons = Array.from(bookControl.querySelectorAll('.color'));
+    if (buttons.includes(event.target)) {
+        for (let button of buttons) {
+            if (event.target === button) {
+                button.classList.add('color_active');
+            } else {
+                button.classList.remove('color_active');
+            }
         }
-    }
 
-    if (event.target.getAttribute('data-bg-color') === 'black') {
-        book.classList.remove('book_bg-gray');
-        book.classList.remove('book_bg-white');
-        book.classList.add('book_bg-black');
-    } else if (event.target.getAttribute('data-bg-color') === 'white') {
-        book.classList.remove('book_bg-black');
-        book.classList.remove('book_bg-gray');
-        book.classList.add('book_bg-white');
-    } else if (event.target.getAttribute('data-bg-color') === 'gray') {
-        book.classList.remove('book_bg-black');
-        book.classList.remove('book_bg-white');
-        book.classList.add('book_bg-gray');
+        book.classList.remove('book_bg-black', 'book_bg-white', 'book_bg-gray');
+        const color = event.target.dataset.bgColor;
+
+        if (color) {
+            book.classList.add(`book_bg-${color}`);
+        } else {
+            book.classList.add('book_bg-white');
+        }
     }
 }
