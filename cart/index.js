@@ -16,7 +16,7 @@ if (localStorage.getItem('cart')) {
 quantityDec.forEach((item) => {
     item.addEventListener('click', () => {
         const value = item.nextElementSibling;
-        if (+value.textContent <= 0) return;
+        if (+value.textContent <= 1) return;
         value.textContent = +value.textContent - 1;
     });
 });

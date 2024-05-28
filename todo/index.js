@@ -1,42 +1,61 @@
 const form = document.querySelector('#tasks__form');
 const taskList = document.querySelector('#tasks__list');
 
+
 if (localStorage.getItem('tasks')) {
-    taskList.innerHTML = localStorage.getItem('tasks');
+    const tasks = JSON.parse(localStorage.getItem('tasks'));
+    for (const task of tasks) {
+        taskList.insertAdjacentHTML('afterbegin', `
+        <div class="task">
+            <div class="task__title">
+                ${task}
+            </div>
+            <a href="#" class="task__remove">&times;</a>
+        </div>
+        `);
+    }
 }
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
-    if (!form.querySelector('#task__input').value) return;
+    const title = form.querySelector('#task__input').value;
+    if (!title.trim()) return;
 
-    const task = document.createElement("div");
-    task.classList.add("task");
+    taskList.insertAdjacentHTML('afterbegin', `
+    <div class="task">
+        <div class="task__title">
+            ${title}
+        </div>
+        <a href="#" class="task__remove">&times;</a>
+    </div>
+    `);
 
-    const taskTitle = document.createElement("div");
-    taskTitle.classList.add("task_title");
-    taskTitle.innerText = form.querySelector('#task__input').value;
+    form.reset();
 
-    const taskRemove = document.createElement("a");
-    taskRemove.classList.add("task__remove");
-    taskRemove.href = "#";
-    taskRemove.innerHTML = "&times;";
-
-    task.append(taskTitle, taskRemove);
-    taskList.append(task);
-    form.reset()
-
-    updateLocalStorage();
+    addToLocalStorage(title);
 });
 
 taskList.addEventListener('click', (event) => {
     if (event.target.classList.contains('task__remove')) {
-        event.target.closest('.task').remove();
-        updateLocalStorage();
+        const task = event.target.closest('.task');
+        task.remove();
+        updateLocalStorage(task.querySelector('.task__title').textContent.trim());
     }
 })
 
-function updateLocalStorage() {
-    if (!taskList.innerHTML) return;
-    localStorage.clear();
-    localStorage.setItem('tasks', taskList.innerHTML);
+function addToLocalStorage(task) {
+    if (!localStorage.getItem('tasks')) {
+        localStorage.setItem('tasks', JSON.stringify([task]));
+    } else {
+        const tasks = JSON.parse(localStorage.getItem('tasks'));
+        tasks.push(task);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+}
+
+function updateLocalStorage(task) {
+    const tasks = JSON.parse(localStorage.getItem('tasks'));
+    const index = tasks.indexOf(task);
+    tasks.splice(index, 1);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 }
