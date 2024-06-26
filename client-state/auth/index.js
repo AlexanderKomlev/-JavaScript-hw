@@ -17,7 +17,7 @@ form.addEventListener("submit", (event) => {
 
     const xhr = request("POST", url, formData);
     xhr.onload = () => {
-        const data = JSON.parse(xhr.response);
+        const data = xhr.response;
         checkData(data);
     }
 
@@ -33,6 +33,8 @@ quit.addEventListener("click", () => {
 function request(method, url, formData=null) {
     const xhr = new XMLHttpRequest();
     xhr.open(method, url);
+
+    xhr.responseType = "json";
     if (formData) {
         xhr.send(formData);
     } else {
@@ -46,12 +48,8 @@ function checkData(data) {
         user.textContent = data.user_id;
         welcome.classList.add("welcome_active");
         signin.classList.remove("signin_active");
-        setStorage("user", data.user_id);
+        localStorage.setItem("user", data.user_id);
     } else {
         alert("Неверный логин/пароль");
     }
-}
-
-function setStorage(key, value) {
-    localStorage.setItem(key, value);
 }
